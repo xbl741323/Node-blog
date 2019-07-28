@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/xbl741323/Node-blog/issues"
   },
-  "homepage": "https://github.com/xbl741323/Node-blog#readme"
+  "homepage": "https://github.com/xbl741323/Node-blog#readme",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^3.4.1",
+    "express": "^4.17.1",
+    "express-art-template": "^1.0.1",
+    "mongoose": "^5.6.7"
+  }
 }
