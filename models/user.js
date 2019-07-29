@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 
 // 连接数据库
-mongoose.connect('mongodb://localhost/test', { useMongoClient: true })
+mongoose.connect('mongodb://localhost/blog', { useNewUrlParser: true })
 
 var Schema = mongoose.Schema
 
@@ -29,13 +29,13 @@ var userSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  avatar: {
+  avatar: { // 头像
     type: String,
-    default: '/public/img/avatar-default.png'
+    default: '/public/img/avatar-max-img.png'
   },
-  bio: {
+  bio: { // 个人介绍
     type: String,
-    default: ''
+    default: '' // 默认是空字符串
   },
   gender: {
     type: Number,
