@@ -4,7 +4,10 @@ var User = require('./models/user')
 var md5 = require('blueimp-md5')
 
 router.get('/', function (req, res) {
-    res.render('index.html')
+    res.render('index.html', {
+        user: req.session.user
+    })
+
 })
 router.get('/login', function (req, res) {
     res.render('login.html')
@@ -16,7 +19,7 @@ router.post('/login', function (req, res) {
             { email: body.email },
             { password: md5(md5(body.password)) }
         ]
-    },function(err,user){
+    }, function (err, user) {
         if (err) {
             return res.status(500).json({
                 err_code: 500,
@@ -30,11 +33,11 @@ router.post('/login', function (req, res) {
             })
         }
         console.log(user)
-        // req.session.user = user
+        req.session.user = user
         res.status(200).json({
             err_code: 0,
             message: 'OK'
-          })
+        })
     })
 })
 router.get('/register', function (req, res) {
@@ -72,6 +75,7 @@ router.post('/register', function (req, res) {
                     message: 'Internsl error'
                 })
             }
+            req.session.user = user
             // Express 提供了一个响应方法：json
             // 该方法接收一个对象作为参数，它会自动帮你把对象转为字符串
             res.status(200).json({
@@ -81,5 +85,61 @@ router.post('/register', function (req, res) {
         })
 
     })
+})
+router.get('/logout', function (req, res) {
+    req.session.user = null
+    res.redirect('/login')
+})
+router.get('/profile', function (req, res) {
+    res.render('settings/profile.html', {
+        user: req.session.user
+    })
+})
+router.post('/profile', function (req, res) {
+    var body = req.body
+    var cuser = req.session.user
+    var cnickname = body.nickname
+    var cbio = body.bio
+    var cgender = body.gender
+    var cbirthday = body.birthday
+    cuser.nickname = body.nickname
+    cuser.bio = body.bio
+    cuser.gender = body.gender
+    cuser.birthday = body.birthday
+    console.log(body)
+    User.findOneAndUpdate({ email: cuser.email }, {
+        nickname: cnickname,
+        bio: cbio,
+        gender: cgender,
+        birthday: cbirthday
+    }, function (err) {
+        if (err) {
+            return res.status(500).send('Server Error')
+        }
+    })
+    res.redirect('/profile')
+})
+router.get('/admin', function (req, res) {
+    res.render('settings/admin.html', {
+        user: req.session.user
+    })
+})
+router.post('/admin', function (req, res) {
+    var body = req.body
+    var cuser = req.session.user
+    var cpassword = body.password
+    cuser.password = cpassword
+    User.findOneAndUpdate({email: cuser.email},{password:cpassword},function(err){
+        if (err) {
+            return res.status(500).send('Server Error')
+        }
+    })
+    res.redirect('/logout')
+})
+router.get('/show', function (req, res) {
+    res.render('topic/show.html')
+})
+router.get('/new', function (req, res) {
+    res.render('topic/new.html')
 })
 module.exports = router

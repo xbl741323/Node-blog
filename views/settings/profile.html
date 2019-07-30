@@ -6,36 +6,37 @@
 <section class="container">
   {{include '../_partials/settings-nav.html'}}
   <div class="col-md-5">
-    <form>
+    <form action="/profile" method="post">
       <div class="form-group">
         <label for="exampleInputEmail1">账号</label>
-        <p class="form-control-static">email@example.com</p>
+        <p class="form-control-static">{{ user.email }}</p>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">昵称</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+        <input type="text" class="form-control" id="exampleInputPassword1" placeholder=" "
+          value="{{ user.nickname }}" name="nickname">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">介绍</label>
-        <textarea class="form-control" rows="3"></textarea>
+        <textarea class="form-control" rows="3" name="bio">{{ user.bio }}</textarea>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">性别</label>
         <div>
           <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 男
+            <input type="radio" name="gender" id="inlineRadio1" value="0"> 男
           </label>
           <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 女
+            <input type="radio" name="gender" id="inlineRadio2" value="1"> 女
           </label>
           <label class="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 保密
+            <input type="radio" name="gender" id="inlineRadio3" value="-1" checked> 保密
           </label>
         </div>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">生日</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="" name="birthday" value="{{ user.birthday }}">
       </div>
       <button type="submit" class="btn btn-success">保存</button>
     </form>
