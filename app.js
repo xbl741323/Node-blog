@@ -18,7 +18,7 @@ app.set('views',path.join(__dirname,'./views/'))// 默认就是 ./views 目录
 // 在 Express 这个框架中，默认不支持 Session 和 Cookie
 // 但是我们可以使用第三方中间件：express-session 来解决
 // 1. npm i express-session
-// 2. 配置
+// 2. 配置 （一定要在路由之前）
 // 3. 使用
 //  当把这个插件配置好后，我们就可以通过 req.session 来访问和设置 Session成员了
 //  添加 Session 数据：req.session.foo = 'bar'

@@ -75,6 +75,7 @@ router.post('/register', function (req, res) {
                     message: 'Internsl error'
                 })
             }
+            // 注册成功，使用 Session 记录用户的登陆状态
             req.session.user = user
             // Express 提供了一个响应方法：json
             // 该方法接收一个对象作为参数，它会自动帮你把对象转为字符串
@@ -87,7 +88,9 @@ router.post('/register', function (req, res) {
     })
 })
 router.get('/logout', function (req, res) {
+    // 清除登陆状态
     req.session.user = null
+    // 重定向到登陆页面
     res.redirect('/login')
 })
 router.get('/profile', function (req, res) {
@@ -129,7 +132,7 @@ router.post('/admin', function (req, res) {
     var cuser = req.session.user
     var cpassword = body.password
     cuser.password = cpassword
-    User.findOneAndUpdate({email: cuser.email},{password:cpassword},function(err){
+    User.findOneAndUpdate({ email: cuser.email }, { password: cpassword }, function (err) {
         if (err) {
             return res.status(500).send('Server Error')
         }
@@ -137,9 +140,13 @@ router.post('/admin', function (req, res) {
     res.redirect('/logout')
 })
 router.get('/show', function (req, res) {
-    res.render('topic/show.html')
+    res.render('topic/show.html', {
+        user: req.session.user
+    })
 })
 router.get('/new', function (req, res) {
-    res.render('topic/new.html')
+    res.render('topic/new.html', {
+        user: req.session.user
+    })
 })
 module.exports = router

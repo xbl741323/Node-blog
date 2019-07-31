@@ -53,9 +53,10 @@
             <li><a href="/logout">退出</a></li>
           </ul>
         </li>
-        {{ /if }}
+      {{ else }}
         <a class="btn btn-primary navbar-btn" href="/login">登录</a>
         <a class="btn btn-success navbar-btn" href="/register">注册</a>
+        {{ /if }}
       </ul>
     </div>
     <!-- /.navbar-collapse -->
